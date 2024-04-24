@@ -3,17 +3,13 @@ from random import choice
 
 
 def main():
-    trivia_data = fetch_data()
-    print(trivia_data)
-    random_country = choice(trivia_data)
-    country_keys = random_country.keys()
-    attri = choice(list(country_keys)[1:])
-    print(attri)
+    trivia_data, countries_data = fetch_data()
+    num_of_questions = number_of_questions()
+    user_choice = options_choosing(list(choice(trivia_data).keys())[1:])
+    random_country = choice(countries_data)
 
-    african_countries = countries_filter(attri, 'Africa', trivia_data)
-    print(len(african_countries))
-    for _ in african_countries:
-        print(f"{_['Country Name']} - {_['Capital']}")
+    for _ in range(num_of_questions):
+        user_answer = ask_user_question(random_country, user_choice)
 
 
 def fetch_data():
@@ -33,19 +29,34 @@ def fetch_data():
         'Phones (Landline)': country['Phones (Landline)'],
                     } for country in countries_data]
     
-    return trivia_data
+    return trivia_data, countries_data
+
+
+def ask_user_question(random_country, option):
+    return input(f'WHAT IS THE {option.upper()} OF {random_country[option].upper()}: ')
+
+
+def options_choosing(options):
+    num = 1
+    print('CHOOSE THE GAME FROM THE OPTIONS LISTED.')
+    for option in options:
+        print(f"{num}. {option.upper()}")
+        num+=1
+    user_choice = int(fetch_input('\nWHAT IS YOUR CHOICE: '))
+
+    return options[user_choice-1]
 
 
 def fetch_input(desc):
     return input(desc).strip()
 
 
+def number_of_questions():
+    return int(fetch_input('HOW MANY QUESTIONS DO YOU WANT TO ANSWER? '))
+
+
 def countries_filter(desc1, desc2, countries):
     return [country for country in countries if country[desc1] == desc2]
-
-
-def initialize_logic():
-    ...
 
 
 main()
