@@ -6,9 +6,9 @@ def main():
     trivia_data, countries_data = fetch_data()
     num_of_questions = number_of_questions()
     user_choice = options_choosing(list(choice(trivia_data).keys())[1:])
-    random_country = choice(countries_data)
 
     for _ in range(num_of_questions):
+        random_country = choice(countries_data)
         user_answer = ask_user_question(random_country, user_choice)
 
 
